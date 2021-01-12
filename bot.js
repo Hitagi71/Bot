@@ -17,6 +17,7 @@ const cooldowns = new Discord.Collection();
 client.once('ready', () => {
 	console.log('Ready!');
 });
+
 client.on('guildMemberAdd', async(member)=>{
 	console.log('é');
     let guild = client.guilds.cache.get("619613533407019009");
@@ -87,5 +88,14 @@ client.on('message', async message => {
 		message.reply('there was an error trying to execute that command!');
 	}
 });
+
+client.on('messageReactionAdd', (reaction, user) => {
+	if(reaction.emoji.name === "💖") {
+		if(!user.bot && reaction.count == 2){			
+			reaction.message.embeds[0].setFooter(`Pertence a ${user.username}`, user.displayAvatarURL());
+			reaction.message.edit(reaction.message.embeds[0])
+		}
+    }
+})
 
 client.login(token);
