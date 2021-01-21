@@ -5,7 +5,10 @@ module.exports = {
     "name": "w",
     "description": "roleta a waifu",
     execute(message, args) {
-        let id = Math.floor(Math.random() * 5) + 1
+        let id = 0
+        do{
+            id = Math.floor(Math.random() * 52) + 1
+        }while(id<33)
         fetch(`http://localhost:3000/character/${id}`)
         .then((resp) => {
             let contentType = resp.headers.get("content-type");
@@ -14,10 +17,9 @@ module.exports = {
                     fetch(json.character.photos)
                     .then((photos) => photos.json())
                     .then((resp) => {
-                        
                         let photos = [];
-                        for(let i = 0; i < resp.character.length; i++){
-                            photos[i] = resp.character[i].photo
+                        for(let i = 0; i < resp.images.length; i++){
+                            photos[i] = resp.images[i].photo
                         }
 
                         const attachment = new Discord.MessageAttachment(photos[0], 'image.png')
