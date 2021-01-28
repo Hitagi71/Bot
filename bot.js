@@ -2,7 +2,7 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const fetch = require('node-fetch')
 const { prefix, token } = require('./config.json');
-const banco = require('./banco')
+const { UserMarry } = require('./dbObjects.js');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -17,20 +17,10 @@ for (const file of commandFiles) {
 const cooldowns = new Discord.Collection();
 
 client.once('ready', () => {
-
-	banco.marry.sync()
-	banco.user.sync()
-	banco.user_marry.sync({
-		force:true
-	})
-	banco.character.sync()
-	banco.anime.sync()
-	banco.character_photos.sync()
-	console.log('Ready!');
+	console.log('Ready!')
 });
 
-client.on('guildMemberAdd', async(member)=>{
-	console.log('é');
+client.on('guildMemberAdd', async(member) =>{
     let guild = client.guilds.cache.get("619613533407019009");
     let channel = client.channels.cache.get("729797123649830912");
     if(guild == member.guild){
@@ -111,7 +101,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
 
 			
 			try {
-				const tag = await banco.user_marry.create({
+				const tag = await UserMarry.create({
 					user: user.id,
 					character: nome,
 				})

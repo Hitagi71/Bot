@@ -16,12 +16,12 @@ module.exports = {
                 return resp.json().then(function(json) {
                    
                     fetch(json.character.photos)
-                    .then((photos) => photos.json())
+                    .then((photos) =>   photos.json())
                     .then((resp) => {
                         
                         let photos = [];
-                        for(let i = 0; i < resp.character.length; i++){
-                            photos[i] = resp.character[i].photo
+                        for(let i = 0; i < resp.images.length; i++){
+                            photos[i] = resp.images[i].photo
                         }
 
                         const attachment = new Discord.MessageAttachment(photos[0], 'image.png')

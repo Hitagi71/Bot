@@ -7,7 +7,7 @@ module.exports = {
     execute(message, args) {
         var resultFound = false
         var fetchNow = function(){
-            var id = Math.floor(Math.random() * 100) + 1
+            var id = Math.floor(Math.random() * 150) + 1
             fetch(`http://localhost:3000/character/${id}`)
             .then((resp) => {
                 
