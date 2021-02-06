@@ -2,8 +2,9 @@ const fetch = require('node-fetch')
 const Discord = require('discord.js');
 
 module.exports = {
-    "name": "w",
-    "description": "roleta a waifu",
+    name: "w",
+    aliases: ['waifu'],
+    description: "roleta a waifu",
     execute(message, args) {
         var resultFound = false
         var fetchNow = function(){
