@@ -1,8 +1,9 @@
 const fetch =  require('node-fetch')
 const Discord = require('discord.js');
 module.exports = {
-    "name": "c",
-    "description" : "search character",
+    name: "c",
+    aliases: ['character'],
+    description : "search character",
     execute (message, args) {
         let nome = '';
         for(let i = 0; i < args.length; i++){
