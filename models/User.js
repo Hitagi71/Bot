@@ -7,7 +7,8 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey:true,
             autoIncrement:true,
         },
-        coins: DataTypes.INTEGER
+        coins: DataTypes.INTEGER,
+        firstMarry: DataTypes.INTEGER
     },{
         timestamps: false
     })

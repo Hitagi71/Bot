@@ -14,4 +14,5 @@ const Marry = require('./models/Marry')(sequelize,Sequelize.DataTypes)
 const User = require('./models/User')(sequelize,Sequelize.DataTypes)
 const UserMarry = require('./models/UserMarry')(sequelize,Sequelize.DataTypes)
 
+
 module.exports = {Anime, Character, CharacterPhotos, Marry, User, UserMarry}

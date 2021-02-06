@@ -94,8 +94,8 @@ client.on('message', async message => {
 client.on('messageReactionAdd', async (reaction, user) => {
 	if(reaction.emoji.name === "💖") {
 		if(!user.bot && reaction.count == 2){			
-			//reaction.message.embeds[0].setFooter(`Pertence a ${user.username}`, user.displayAvatarURL());
-			//reaction.message.edit(reaction.message.embeds[0])
+			reaction.message.embeds[0].setFooter(`Pertence a ${user.username}`, user.displayAvatarURL());
+			reaction.message.edit(reaction.message.embeds[0])
 			
 			let nome = reaction.message.embeds[0].title
 
