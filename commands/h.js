@@ -1,6 +1,8 @@
 const fetch =  require('node-fetch')
 const Discord = require('discord.js');
 const { UserMarry } = require('../dbObjects')
+const  baseApiUrl  = require('../global').baseApiUrl
+
 module.exports = {
     name: "h",
     aliases: ['harem'],
@@ -16,19 +18,18 @@ module.exports = {
 
             let lastWaifu = tag[tag.length - 1].dataValues.character
 
-            console.log(`http://localhost:3000/character/search/${lastWaifu}`)
-
-            fetch(`http://localhost:3000/character/search/${lastWaifu}`)
+            fetch(`${baseApiUrl}/character/search/${lastWaifu}`)
             .then((resp) => { 
                 return resp.json().then(function (json) {
-                    fetch(json.character.photos)
+                    fetch(json.character.images)
                     .then((resp) => resp.json())
                     .then((photos) => {
-                        const photo = photos.images[0].photo
+                        const photo = photos.images[0].url
 
                         const exampleEmbed = new Discord.MessageEmbed()
                             .setColor('#0099ff')
                             .setAuthor("Puteiro do "+message.author.username, "https://cdn.discordapp.com/avatars/"+message.author.id+"/"+message.author.avatar+".jpeg", 'https://discord.js.org')
+                            .setURL(photo)
                             .setThumbnail(photo)
                             .setDescription(waifus)
                         
@@ -37,7 +38,8 @@ module.exports = {
                     })
                 })
             })        
-        }
-        return message.reply('Could not find harem');
+        } else {
+            return message.reply('Could not find harem');
+        } 
     }
 }

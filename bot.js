@@ -3,6 +3,8 @@ const Discord = require('discord.js');
 const fetch = require('node-fetch')
 const { prefix, token } = require('./config.json');
 const { UserMarry } = require('./dbObjects.js');
+const baseApiUrl = require('./global').baseApiUrl
+const photoReact = require('./functions/react').photoReact
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -90,72 +92,42 @@ client.on('message', async message => {
 	}
 });
 
+client.on('messageReactionRemove', async (reaction, user) => {
+	if(reaction.emoji.name === "👉") {
+		photoReact(reaction, user, 'add')
+	}else if(reaction.emoji.name === "👈")	{
+		photoReact(reaction, user, 'decrease')
+	}
+})
 
 client.on('messageReactionAdd', async (reaction, user) => {
 	if(reaction.emoji.name === "💖") {
-		if(!user.bot && reaction.count == 2){			
-			reaction.message.embeds[0].setFooter(`Pertence a ${user.username}`, user.displayAvatarURL());
-			reaction.message.edit(reaction.message.embeds[0])
+		
+
+		// if(!user.bot && reaction.count == 2){			
+		// 	reaction.message.embeds[0].setFooter(`Pertence a ${user.username}`, user.displayAvatarURL());
+		// 	reaction.message.edit(reaction.message.embeds[0])
 			
-			let nome = reaction.message.embeds[0].title
+		// 	let nome = reaction.message.embeds[0].title
 
 			
-			try {
-				const tag = await UserMarry.create({
-					user: user.id,
-					character: nome,
-				})
+		// 	try {
+		// 		const tag = await UserMarry.create({
+		// 			user: user.id,
+		// 			character: nome,
+		// 		})
              
-                return reaction.message.channel.send(`${user.username} esta casado ${nome}`)
-            }
-            catch (e) {
-               console.error(e)
-            }
-		}
+        //         return reaction.message.channel.send(`${user.username} esta casado ${nome}`)
+        //     }
+        //     catch (e) {
+        //        console.error(e)
+        //     }
+		// }
 	}else if(reaction.emoji.name === "👉") {
-		console.log(user)
-		if(!user.bot){
-			const nome = reaction.message.embeds[0].title
-			fetch(`http://localhost:3000/character/search/${nome}`)
-			.then((resp) => {
-				let contentType = resp.headers.get("content-type");
-				if(contentType && contentType.indexOf("application/json") !== -1) {
-					return resp.json().then(function(json) {
-						fetch(json.character.photos)
-						.then((photos) => photos.json())
-						.then((resp) => {
-							
-							let photos = [];
-							for(let i = 0; i < resp.character.length; i++){
-								photos[i] = resp.character[i].photo
-							}
-
-							if(reaction.message.posicao == undefined){
-								reaction.message.posicao = 1;
-							}else if(reaction.message.posicao > photos.length-1){
-								reaction.message.posicao = 0;
-							}else{
-								reaction.message.posicao++;
-							}
-							
-							let index =  reaction.message.posicao
-							
-							const attachment = new Discord.MessageAttachment(photos[index], 'image.png')
-							const exampleEmbed = new Discord.MessageEmbed()
-							.setColor('#FD3F96')
-							.attachFiles(attachment)
-							.setTitle(json.character.name)
-							.setDescription(json.character.anime_name)
-							.setImage('attachment://image.png')
-							.setTimestamp()
-								
-							reaction.message.edit(exampleEmbed)
-						})
-					})
-				}
-			})
-		}
-	}	
+		photoReact(reaction, user, 'add')
+	}else if(reaction.emoji.name === "👈")	{
+		photoReact(reaction, user, 'decrease')
+	}
 })
 
 client.login(token);
