@@ -28,7 +28,7 @@ module.exports = {
 
                         const exampleEmbed = new Discord.MessageEmbed()
                             .setColor('#0099ff')
-                            .setAuthor("Puteiro do "+message.author.username, "https://cdn.discordapp.com/avatars/"+message.author.id+"/"+message.author.avatar+".jpeg", 'https://discord.js.org')
+                            .setAuthor("Personagens do(a) "+message.author.username, "https://cdn.discordapp.com/avatars/"+message.author.id+"/"+message.author.avatar+".jpeg", 'https://discord.js.org')
                             .setURL(photo)
                             .setThumbnail(photo)
                             .setDescription(waifus)
